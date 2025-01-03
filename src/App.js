@@ -1,25 +1,41 @@
-import logo from './logo.svg';
-import './App.css';
+import React, { createContext, useContext, useState } from "react";
+
+const MyContext = createContext('initial')
 
 function App() {
+  const [value, setValue] = useState('Hello World')
+
+  const changeValue = (newValue) => {
+    setValue(newValue)
+  }
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <MyContext.Provider value={{value, changeValue}}>
+      <Example1 />
+      <Example2 />
+    </MyContext.Provider>
   );
+}
+
+function Example1(){
+  const {value, changeValue} = useContext(MyContext)
+
+  return (
+    <div>
+      <p>The current value is '{value}'</p>
+      <button onClick={() => changeValue('Example1 Value')}>Example1: Click me to Change Value</button>
+    </div>
+  )
+}
+
+function Example2(){
+  const {value, changeValue} = useContext(MyContext)
+
+  return (
+    <div>
+      <p>The current value is '{value}'</p>
+      <button onClick={() => changeValue('Example2 Value')}>Example2: Click me to Change Value</button>
+    </div>
+  )
 }
 
 export default App;
